@@ -1,0 +1,72 @@
+@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+
+$headerColor: red;
+$fontName: 'Ubuntu';
+
+body {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    font-family: $fontName, sans-serif;
+    line-height: 150%;
+    margin: 0px;
+}
+
+div[class^='step'], div[class*=' step'] {
+    // border: 1px $headerColor solid;
+    width: 85%;
+    // height: 50%;
+    margin: 5% auto;
+    box-shadow: 7px 7px 7px 1px #cccccc;
+}
+
+h1 {
+    color: $headerColor;
+    margin: 5% auto;
+    width: 600px;
+    line-height: 120%;
+}
+
+.step1 {
+    .fb-login-button {
+        margin: 0 45%;
+    }
+}
+
+.step2 {
+    div {
+    	margin: 5% 30%;
+    	// border: 2px red solid;
+    	width: 30%;
+    	height: 150px;
+    	text-align: center;
+        select {
+            height: 40px;
+            background-color: #fafafa;
+            box-shadow: 7px 7px 7px 1px #cccccc;
+            border: 0px;
+            border-radius: 3px;
+            font-size: 1em;
+            padding: 10px 10px;
+            box-sizing: border-box;
+        }
+        button {
+        	box-shadow: 7px 7px 7px 1px #cccccc;
+        	margin-top: 5%;
+        	line-height: 150%;
+        }
+    }
+}
+
+.step3 {
+	h2 {
+		color: $headerColor;
+    	margin: 5% auto;
+    	width: 250px;
+	}
+	p {
+		width: 50%;
+		line-height: 150%;
+		margin: 0 auto;
+	}
+}
