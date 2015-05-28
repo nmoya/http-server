@@ -1,4 +1,8 @@
 .DS_Store
+logs
+whatsapp-parser
+tempin
+tempout
 
 # Created by https://www.gitignore.io
 

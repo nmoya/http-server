@@ -2,8 +2,7 @@
 window.fbAsyncInit = function () {
   FB.init({
     appId: '760742574044608',
-    cookie: true, // enable cookies to allow the server to access 
-    // the session
+    cookie: true, // enable cookies to allow the server to access the session
     xfbml: true, // parse social plugins on this page
     version: 'v2.2' // use version 2.2
   });
@@ -62,11 +61,15 @@ $(document).ready(function () {
   $(".step4").hide();
 });
 
-function nextSimulator() {
-  $(".step2").hide(hideTimeout);
-  $(".step3").show();
+function sendDataTest() {
+  sendData(sampleJSON2);
 }
 
+function sendData(messages_data) {
+  $.post("/whosintoyou/sendata", messages_data, function (data) {
+    console.log("POST sent");
+  });
+}
 
 function getAllConversations(request_url, user_name, callback) {
   FB.api(request_url, function (response) {
@@ -182,7 +185,10 @@ function computeStatistics() {
   console.log("callback called. computeStatistics");
   console.log("Number of messages: ");
   console.log(listOfMessages.length);
-  //generateTable();
+  sendData({
+    "data": listOfMessages
+  });
+  // generateTable();
 }
 
 function generateSelectOptions() {
@@ -217,6 +223,6 @@ function main() {
     user_name = response.name;
     console.log(user_id, user_name);
     // alert("uncomment me");
-    getAllConversations("/" + user_id + '/inbox', user_name, generateSelectOptions);
+    // getAllConversations("/" + user_id + '/inbox', user_name, generateSelectOptions);
   });
 }
