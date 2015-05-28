@@ -17,6 +17,17 @@ function initServer() {
   app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
     extended: true
   }));
+
+  in_files = fs.readdirSync("./tempin");
+  out_files = fs.readdirSync("./tempout");
+
+  for (i = 0; i < in_files.length; i++) {
+    fs.unlinkSync(path.join("./tempin", in_files[i]));
+  }
+  for (i = 0; i < out_files.length; i++) {
+    fs.unlinkSync(path.join("./tempout", out_files[i]));
+  }
+
   server = http.createServer(app)
   server.listen(port, function () {
     console.log("SERVER RUNNING. Port: " + port);
@@ -44,16 +55,35 @@ function route() {
 
   app.post("/whosintoyou/sendata", function (req, res) {
     chat = JSON.stringify(req.body);
-    file_name = "./tempin/" + uuid.v4() + ".json";
+    in_file_name = "./tempin/" + uuid.v4() + ".json";
+    out_file_name = in_file_name.replace("tempin", "tempout");
 
-    fs.writeFile(file_name, chat, function (err) {
-      if (err) {
-        console.log(err);
+    fs.writeFile(in_file_name, chat, function (write_error) {
+      if (write_error) {
+        res.send({
+          "error": "Error creating temporary file"
+        });
       }
-      cmd = util.format("python ./whosintoyou/whatsapp-parser/Chat.py -f %s -p Facebook -o %s -n %s", file_name, file_name.replace("tempin", "tempout"), "Nikolas Moya".replace(" ", "_"));
+      cmd = util.format("python ./whosintoyou/whatsapp-parser/Chat.py -f %s -p Facebook -o %s -n %s", in_file_name, out_file_name, "Nikolas Moya".replace(" ", "_"));
       console.log(cmd);
-      child = exec(cmd, maxBuffer = (1024 * 1024), function (error, stdout, stderr) {
-        console.log(error);
+      child = exec(cmd, maxBuffer = (1024 * 1024), function (python_error, stdout, stderr) {
+        if (!python_error) {
+          fs.readFile(out_file_name, 'utf8', function (read_error, data) {
+            if (read_error) {
+              res.send({
+                "error": "Error deleting temporary file"
+              });
+            }
+            console.log(data);
+            res.send({
+              "stats": data
+            });
+          });
+        } else {
+          res.send({
+            "error": "Error computing chat stats."
+          });
+        }
         // console.log("stdout: " + stdout);
         // console.log("stderr: " + stderr);
         // console.log("exec error: " + error);

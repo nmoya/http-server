@@ -67,7 +67,10 @@ function sendDataTest() {
 
 function sendData(messages_data) {
   $.post("/whosintoyou/sendata", messages_data, function (data) {
-    console.log("POST sent");
+    if (!data.error)
+      console.log(data);
+    else
+      alert("An error has occurred, please reload the page: " + data.error);
   });
 }
 
