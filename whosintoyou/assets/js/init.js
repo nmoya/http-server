@@ -1,10 +1,10 @@
 /* Facebook stuff */
 window.fbAsyncInit = function () {
   FB.init({
-    appId: '760742574044608',
+    appId: '1604163509840523',
     cookie: true, // enable cookies to allow the server to access the session
     xfbml: true, // parse social plugins on this page
-    version: 'v2.2' // use version 2.2
+    version: 'v2.3' // use version 2.2
   });
 
   FB.getLoginStatus(function (response) {
@@ -67,9 +67,10 @@ function sendDataTest() {
 
 function sendData(messages_data) {
   $.post("/whosintoyou/sendata", messages_data, function (data) {
-    if (!data.error)
+    if (!data.error) {
       console.log(data);
-    else
+      $(".step4").html(JSON.stringify(data));
+    } else
       alert("An error has occurred, please reload the page: " + data.error);
   });
 }
@@ -226,6 +227,6 @@ function main() {
     user_name = response.name;
     console.log(user_id, user_name);
     // alert("uncomment me");
-    // getAllConversations("/" + user_id + '/inbox', user_name, generateSelectOptions);
+    getAllConversations("/" + user_id + '/inbox', user_name, generateSelectOptions);
   });
 }

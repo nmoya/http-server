@@ -13,10 +13,18 @@ var last_path = '';
 
 function initServer() {
   /* Create server */
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
+  app.use(bodyParser.json({
+    "limit": "50mb",
+    "parameterLimit": 50000,
+  }));
+  app.use(bodyParser.urlencoded({
+    limit: '50mb',
+    "parameterLimit": 50000,
     extended: true
   }));
+  // app.use(bodyParser({
+  //   limit: '50mb'
+  // }));
 
   in_files = fs.readdirSync("./tempin");
   out_files = fs.readdirSync("./tempout");
@@ -60,6 +68,7 @@ function route() {
 
     fs.writeFile(in_file_name, chat, function (write_error) {
       if (write_error) {
+        console.log("[ERROR] Could not create file");
         res.send({
           "error": "Error creating temporary file"
         });
@@ -70,6 +79,7 @@ function route() {
         if (!python_error) {
           fs.readFile(out_file_name, 'utf8', function (read_error, data) {
             if (read_error) {
+              console.log("[ERROR] Could not read file");
               res.send({
                 "error": "Error deleting temporary file"
               });
@@ -80,6 +90,7 @@ function route() {
             });
           });
         } else {
+          console.log("[ERROR] Computing features with python script");
           res.send({
             "error": "Error computing chat stats."
           });
