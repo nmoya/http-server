@@ -1,5 +1,5 @@
 /* Facebook stuff */
-window.fbAsyncInit = function () {
+window.fbAsyncInit = function() {
   FB.init({
     appId: '1604163509840523',
     cookie: true, // enable cookies to allow the server to access the session
@@ -7,14 +7,14 @@ window.fbAsyncInit = function () {
     version: 'v2.3' // use version 2.2
   });
 
-  FB.getLoginStatus(function (response) {
+  FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
   });
 
 };
 
 // Load the SDK asynchronously
-(function (d, s, id) {
+(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s);
@@ -24,7 +24,7 @@ window.fbAsyncInit = function () {
 }(document, 'script', 'facebook-jssdk'));
 
 function checkLoginState() {
-  FB.getLoginStatus(function (response) {
+  FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
   });
 }
@@ -43,7 +43,7 @@ var hideTimeout = 500;
 var listOfConversations = [];
 var listOfMessages = [];
 var user_name = null;
-$(document).ready(function () {
+$(document).ready(function() {
   $("#typed").typed({
     strings: ["........"],
     typeSpeed: 0,
@@ -62,11 +62,15 @@ $(document).ready(function () {
 });
 
 function sendDataTest() {
-  sendData(sampleJSON2);
+  sendData(sampleJSON2.data);
 }
 
 function sendData(messages_data) {
-  $.post("/whosintoyou/sendata", messages_data, function (data) {
+  json_object = {
+    "data": messages_data,
+    "name": user_name
+  }
+  $.post("/whosintoyou/receivedata", json_object, function(data) {
     if (!data.error) {
       console.log(data);
       $(".step4").html(JSON.stringify(data));
@@ -76,13 +80,13 @@ function sendData(messages_data) {
 }
 
 function getAllConversations(request_url, user_name, callback) {
-  FB.api(request_url, function (response) {
+  FB.api(request_url, function(response) {
     // console.log(response);
     if (response.error) {
       $("#status").html("Due to heavy usage, our API has been limited by Facebook. We will keep trying, please leave this window open.");
       console.log(response.error.message);
       console.log("Waiting 60 seconds");
-      setTimeout(function () {
+      setTimeout(function() {
         console.log("Trying again");
         getAllConversations(request_url, user_name, callback)
       }, 60000);
@@ -105,12 +109,12 @@ function getAllConversations(request_url, user_name, callback) {
 }
 
 function getAllMessages(request_url, callback) {
-  FB.api(request_url, function (response) {
+  FB.api(request_url, function(response) {
     if (response.error) {
       console.log(response.error.message);
       $("#status").html("Due to heavy usage, our API has been limited by Facebook. We will keep trying, please leave this window open.");
       console.log("Waiting 60 seconds to continue getting all messages");
-      setTimeout(function () {
+      setTimeout(function() {
         getAllMessages(request_url, callback)
       }, 60000);
     } else {
@@ -132,12 +136,12 @@ function getAllMessages(request_url, callback) {
 }
 
 function getAllMessagesPaging(request_url, callback, progress) {
-  FB.api(request_url, function (response) {
+  FB.api(request_url, function(response) {
     if (response.error) {
       console.log(response.error.message);
       $("#status").html("Due to heavy usage, our API has been limited by Facebook. We will keep trying, please leave this window open.");
       console.log("Waiting 60 seconds to continue getting all messages");
-      setTimeout(function () {
+      setTimeout(function() {
         getAllMessagesPaging(request_url, callback, progress)
       }, 60000);
     } else {
@@ -189,9 +193,7 @@ function computeStatistics() {
   console.log("callback called. computeStatistics");
   console.log("Number of messages: ");
   console.log(listOfMessages.length);
-  sendData({
-    "data": listOfMessages
-  });
+  sendData(listOfMessages);
   // generateTable();
 }
 
@@ -222,7 +224,7 @@ function main() {
   var user_id = null;
   $(".step1").hide(hideTimeout);
   $(".step2").show();
-  FB.api('/me', function (response) {
+  FB.api('/me', function(response) {
     user_id = response.id;
     user_name = response.name;
     console.log(user_id, user_name);
