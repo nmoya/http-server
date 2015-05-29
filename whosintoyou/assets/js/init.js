@@ -13,6 +13,20 @@ window.fbAsyncInit = function() {
 
 };
 
+function fb_login() {
+  FB.login(function(response) {
+    if (response.status === 'connected') {
+      main(); // Main is in init.js
+    } else if (response.status === 'not_authorized') {
+      document.getElementById('status').innerHTML = 'Please log ' + 'into this app.';
+    } else {
+      document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';
+    }
+  }, {
+    scope: "public_profile,email,read_mailbox"
+  });
+};
+
 // Load the SDK asynchronously
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -22,12 +36,6 @@ window.fbAsyncInit = function() {
   js.src = "//connect.facebook.net/en_US/sdk.js";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
-
-function checkLoginState() {
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
-}
 
 function statusChangeCallback(response) {
   if (response.status === 'connected') {
@@ -39,26 +47,17 @@ function statusChangeCallback(response) {
   }
 }
 
-var hideTimeout = 500;
+var hideTimeout = 0;
 var listOfConversations = [];
 var listOfMessages = [];
+var stats = null;
 var user_name = null;
 $(document).ready(function() {
-  $("#typed").typed({
-    strings: ["........"],
-    typeSpeed: 0,
-    loop: true,
-    typeSpeed: 150,
-    startDelay: 0,
-    backSpeed: 0,
-    backDelay: 500,
-    showCursor: false,
-  });
-  document.getElementById("generateStats").addEventListener("click", handlerGenerateButton);
+  // document.getElementById("generateStats").addEventListener("click", handlerGenerateButton);
   // $(".step1").hide();
-  $(".step2").hide();
-  $(".step3").hide();
-  $(".step4").hide();
+  // $(".step2").hide();
+  // $(".step3").hide();
+  // $(".step4").hide();
 });
 
 function sendDataTest() {

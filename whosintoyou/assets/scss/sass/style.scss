@@ -1,62 +1,135 @@
-@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300&subset=latin,latin-ext);
 
-$headerColor: red;
-$fontName: 'Ubuntu';
+$headerColor: white;
+$fontName: "Open Sans", "Verdana", "Helvetica", "Arial", sans-serif;
 
 body {
     width: 100%;
     height: 100%;
-    background-color: white;
-    font-family: $fontName, sans-serif;
+    font-family: $fontName;
+    font-weight: 400;
     line-height: 150%;
-    margin: 0px;
 }
 
+// This applies to all divs with class*
 div[class^='step'], div[class*=' step'] {
     // border: 1px $headerColor solid;
-    width: 85%;
-    // height: 50%;
-    margin: 5% auto;
-    box-shadow: 7px 7px 7px 1px #cccccc;
+    // width: 85%;
+    // margin: 5% auto;
+    // box-shadow: 7px 7px 7px 1px #cccccc;
 }
-
-h1 {
-    color: $headerColor;
-    margin: 5% auto;
-    width: 600px;
-    line-height: 120%;
-}
-
 .step1 {
-    .fb-login-button {
-        margin: 0 45%;
+    position: absolute;
+    background-image: url("../../img/bg_image_wheatField_overlayed.jpg");
+    background-repeat:no-repeat;
+    background-size: 100%;
+    width: 100%;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    
+    img {
+        width: 60px;
+        margin: 1% 1%;
+    }
+
+    h1 {
+        margin-top: 20%;
+        margin-bottom: 3%;
+        color: $headerColor;
+        text-align: center;
+        font-size: 4em;
+        letter-spacing: 2px;
+    }
+    .my-fb-class {
+        width: 20%;
+        margin: 0 auto;
+        font-size: 1.2em;
+        padding-top: 10px;
+        height: 50px;
+        i {
+            padding-top: 7px;
+        }
+    }
+}
+.step2 {
+    img, h1 {
+        margin-left: 20%;
+    }
+    a {
+        visibility: hidden;
     }
 }
 
-.step2 {
-    div {
-    	margin: 5% 30%;
-    	// border: 2px red solid;
-    	width: 30%;
-    	height: 150px;
-    	text-align: center;
-        select {
-            height: 40px;
-            background-color: #fafafa;
-            box-shadow: 7px 7px 7px 1px #cccccc;
-            border: 0px;
-            border-radius: 3px;
-            font-size: 1em;
-            padding: 10px 10px;
-            box-sizing: border-box;
+nav{
+    background-color: #181818;
+    width: 20%;
+    height: 100%;
+    position: absolute;
+    color: white;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-weight: 300;
+
+    ul{
+        cursor: pointer;
+        margin-left: -10%;
+        li{
+            line-height: 200%;
+            font-size: 1.5em;
         }
-        button {
-        	box-shadow: 7px 7px 7px 1px #cccccc;
-        	margin-top: 5%;
-        	line-height: 150%;
+        li:hover{
+            background-color: #41b6e6;
         }
     }
+
+    ul li{
+        list-style: none;
+    }
+
+    h2{
+        margin-left: 7%;
+        font-size: 1.4em;
+    }
 }
+
+nav::-webkit-scrollbar {
+    width: 7px;
+}
+ 
+nav::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+nav::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  // outline: 1px solid #181818;
+}
+
+// .step2 {
+//     div {
+//     	margin: 5% 30%;
+//     	// border: 2px red solid;
+//     	width: 30%;
+//     	height: 150px;
+//     	text-align: center;
+//         select {
+//             height: 40px;
+//             background-color: #fafafa;
+//             box-shadow: 7px 7px 7px 1px #cccccc;
+//             border: 0px;
+//             border-radius: 3px;
+//             font-size: 1em;
+//             padding: 10px 10px;
+//             box-sizing: border-box;
+//         }
+//         button {
+//         	box-shadow: 7px 7px 7px 1px #cccccc;
+//         	margin-top: 5%;
+//         	line-height: 150%;
+//         }
+//     }
+// }
 
 .step3 {
 	h2 {
