@@ -1,57 +1,64 @@
+a = null;
+google.load('visualization', '1', {
+	packages: ['corechart', 'bar']
+});
+
 function createCharts(JSONData, yourName, contactName) {
-	console.log(JSONData === statsObject);
-	console.log(yourName === "Nikolas Moya");
-	console.log(contactName === "Thiago Jaruga Della Bianca");
+	console.log("plotting data");
 	plotInitiations(JSONData, yourName, contactName);
 	plotRatios(JSONData);
+
 }
-a = null;
 
 function plotInitiations(JSONData, yourName, contactName) {
-	var ctx = document.getElementById("bar-initiations").getContext("2d");
-	console.log(JSONData.initiations[yourName]);
-	console.log(JSONData.initiations[contactName]);
-	var data = {
-		labels: ["You", contactName],
-		datasets: [{
-			label: "Initiations",
-			fillColor: "#00C8F8",
-			strokeColor: "rgba(220,220,220,1)",
-			pointColor: "rgba(220,220,220,1)",
-			pointStrokeColor: "#fff",
-			pointHighlightFill: "#fff",
-			pointHighlightStroke: "rgba(220,220,220,1)",
-			data: [JSONData.initiations[yourName], JSONData.initiations[contactName]]
-		}]
+	var data = google.visualization.arrayToDataTable([
+		['Person', 'Initiations', {
+			role: 'style'
+		}],
+		['You', JSONData.initiations[yourName], 'color: #00C8F8'],
+		[contactName, JSONData.initiations[contactName], 'color: #00C8F8']
+	]);
+	var view = new google.visualization.DataView(data);
+	var options = {
+		title: "Initiations",
+		width: 400,
+		height: 400,
+		bar: {
+			groupWidth: "95%"
+		},
+		legend: {
+			position: "none"
+		},
 	};
-	var chart = new Chart(ctx).Bar(data);
+	var chart = new google.visualization.ColumnChart(document.getElementById("bar-initiations"));
+	chart.draw(view, options);
 }
 
 function plotRatios(JSONData) {
-	var ctx = document.getElementById("bar-ratios").getContext("2d");
-	a = JSONData
-	var data = {
-		labels: ["Initiation", "Response time", "Bursts", "Messages", "Message length", "Question marks", "Exclamation points"],
-		datasets: [{
-			label: "Ratios",
-			fillColor: "#00C8F8",
-			strokeColor: "rgba(220,220,220,1)",
-			pointColor: "rgba(220,220,220,1)",
-			pointStrokeColor: "#fff",
-			pointHighlightFill: "#fff",
-			pointHighlightStroke: "rgba(220,220,220,1)",
-			data: [JSONData.initiations["root_initiation_ratio"],
-				JSONData["avg_response_time"].ratio,
-				JSONData["nbr_bursts"].ratio,
-				JSONData.proportions.messages.ratio,
-				JSONData.proportions["avg_words"].ratio,
-				JSONData.proportions.qmarks.ratio,
-				JSONData.proportions.exclams.ratio
-			]
-		}]
+	var data = google.visualization.arrayToDataTable([
+		['Metric', 'Value', {
+			role: 'style'
+		}],
+		['Inititation', JSONData.initiations["root_initiation_ratio"], 'color: #00C8F8'],
+		['Response time', JSONData["avg_response_time"].ratio, 'color: #00C8F8'],
+		['Bursts', JSONData["nbr_bursts"].ratio, 'color: #00C8F8'],
+		['Messages', JSONData.proportions.messages.ratio, 'color: #00C8F8'],
+		['Message length', JSONData.proportions["avg_words"].ratio, 'color: #00C8F8'],
+		['Question marks', JSONData.proportions.qmarks.ratio, 'color: #00C8F8'],
+		['Exclamation marks Length', JSONData.proportions.exclams.ratio, 'color: #00C8F8'],
+	]);
+	var view = new google.visualization.DataView(data);
+	var options = {
+		title: "Ratios",
+		width: 400,
+		height: 400,
+		bar: {
+			groupWidth: "95%"
+		},
+		legend: {
+			position: "none"
+		},
 	};
-	var chart = new Chart(ctx).Bar(data, {
-		scaleGridLineWidth: 1, //Number - Width of the grid lines
-		scaleShowHorizontalLines: true, //Boolean - Whether to show horizontal lines (except X axis)
-	});
+	var chart = new google.visualization.ColumnChart(document.getElementById("bar-ratios"));
+	chart.draw(view, options);
 }

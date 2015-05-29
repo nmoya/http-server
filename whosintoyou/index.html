@@ -10,7 +10,8 @@
     
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> <!-- Required for animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script> -->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="./assets/js/conversation.js"></script>
     <script src="./assets/js/charts.js"></script>
     <script src="./assets/js/init.js"></script>
@@ -52,12 +53,14 @@
         <div class='initiations'>
           <h2> Initiates conversations often </h2>
           <p>An initiation is counted when someone sends the first message after a long period of silence (8 hours).</p>
-          <canvas id='bar-initiations' width='400' height='400'></canvas>
+          <!-- <canvas id='bar-initiations' width='400' height='400'></canvas> -->
+          <div id="bar-initiations" width='400' height='400'></div>
         </div>
         <div class='ratios'>
           <h2> Take a look into your chat ratios </h2>
           <p>The ratio represents the relative magnitude of each dimension between you and your contact. For example, if you sent 80 messages, and received 100, the ratio will be 0.8. The line at 1.0 represents a balance.</p>
-          <canvas id='bar-ratios' width='400' height='400'></canvas>
+          <!-- <canvas id='bar-ratios' width='400' height='400'></canvas> -->
+          <div id="bar-ratios" width='400' height='400'></div>
         </div>
       </div>
       

@@ -55,7 +55,7 @@ function fb_login() {
 
 
 /* UI Functions */
-function changeScreen(screen, intoYou) {
+function changeScreen(screen, intoYou, callback) {
   if (screen == 1) {
     $(".step1 img").removeClass('shift-left', 500);
     $(".step1 h1").removeClass('shift-left', 500);
@@ -87,6 +87,7 @@ function changeScreen(screen, intoYou) {
       $("#toYou").html(" is not into you!");
       $(".contact-img").switchClass("green-glow", "red-glow");
     }
+    callback();
   }
 }
 
@@ -201,10 +202,15 @@ function computeStatistics() {
     } else {
       JSONData = JSON.parse(data.stats);
       if (JSONData.initiations[toName] >= JSONData.initiations[toName])
-        changeScreen(3, true);
+        changeScreen(3, true, function() {
+          console.log("Screen appeared");
+          createCharts(JSONData, userName, toName);
+        });
       else
-        changeScreen(3, false);
-      createCharts(JSONData, userName, toName);
+        changeScreen(3, false, function() {
+          console.log("Screen appeared");
+          createCharts(JSONData, userName, toName);
+        });
       // console.log(data);
       // console.log(JSON.stringify(data));
       statsJSON = data;
