@@ -1,23 +1,4 @@
-var sampleJSON = "[{'id': '329465960445648_1432085429','from': 'Nikolas Moya','message': 'te amo','datetime': '2015-05-20T01:30:29+0000'}, {'id': '329465960445648_1432087008',	'from': 'Marilia Ferreira',	'message': 'Pa não me atende???',	'datetime': '2015-05-20T01:56:48+0000'}, {'id': '329465960445648_1432087317',	'from': 'Nikolas Moya',	'message': 'por onde vc ta me ligando?',	'datetime': '2015-05-20T02:01:57+0000'}, {	'id': '329465960445648_1432087454',	'from': 'Nikolas Moya',	'message': 'agora vc nao me atende','datetime': '2015-05-20T02:04:14+0000'}]";
-var sampleJSON2 = {
-	"name": "Nikolas Moya",
-	"data": [{
-		"id": "329465960445648_1432085429",
-		"from": "Nikolas Moya",
-		"message": "te amo",
-		"datetime": "2015-05-20T01:30:29+0000"
-	}, {
-		"id": "329465960445648_1432087008",
-		"from": "Marilia Ferreira",
-		"message": "Pa não me atende???",
-		"datetime": "2015-05-20T01:56:48+0000"
-	}, {
-		"id": "329465960445648_1432087317",
-		"from": "Nikolas Moya",
-		"message": "por onde vc ta me ligando?",
-		"datetime": "2015-05-20T02:01:57+0000"
-	}]
-};
+// var statsObject = JSON.parse(localStorage.getItem('localStats'));
 
 function Conversation(conversationId, from, to, toId) {
 	this.id = conversationId;

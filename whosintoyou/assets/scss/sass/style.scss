@@ -2,6 +2,7 @@
 
 $headerColor: white;
 $fontName: "Open Sans", "Verdana", "Helvetica", "Arial", sans-serif;
+$peapsBlue: #00C8F8;
 
 body {
     width: 100%;
@@ -9,7 +10,7 @@ body {
     font-family: $fontName;
     font-weight: 400;
     line-height: 150%;
-    overflow-y: hidden;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -20,22 +21,22 @@ div[class^='step'], div[class*=' step'] {
     // margin: 5% auto;
     // box-shadow: 7px 7px 7px 1px #cccccc;
 }
+
+.peaps-logo {
+    width: 90px;
+    // margin: 1% 1%;
+    padding: 1% 1%;
+}
+
 .step1 {
     position: absolute;
     background-image: url("../../img/bg_image_wheatField60q.jpg");
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     background-size: 100%;
     width: 100%;
     height: 100vh;
     left: 0;
     top: 0;
-    
-    img {
-        width: 90px;
-        // margin: 1% 1%;
-        padding: 1% 1%;
-    }
-
     h1 {
         margin-top: 20%;
         margin-bottom: 4%;
@@ -57,24 +58,42 @@ div[class^='step'], div[class*=' step'] {
         }
     }
 }
+
 .shift-left {
     margin-left: 20%;
 }
+
 .shift-nav {
     margin-left: 0%;
 }
+
 .invisible {
     opacity: 0;
 }
+
 .visible {
     opacity: 1;
 }
+
+.green-glow {
+    -moz-box-shadow: 0 0 300px #0f0;
+    -webkit-box-shadow: 0 0 300px #0f0;
+    box-shadow: 0px 0px 300px #0f0;
+}
+
+.red-glow {
+    -moz-box-shadow: 0 0 300px #f00;
+    -webkit-box-shadow: 0 0 300px #f00;
+    box-shadow: 0px 0px 300px #f00;
+}
+
 .my-alert {
     z-index: 1;
     position: absolute;
     width: 50%;
     margin: 5% 30%;
 }
+
 .my-progress {
     z-index: 2;
     position: absolute;
@@ -85,12 +104,69 @@ div[class^='step'], div[class*=' step'] {
     font-size: 2em;
     color: white;
 }
+
 .my-fb-like {
     width: 20%;
     z-index: 2;
     margin: 2% 72%;
 }
-nav{
+
+.result {
+    position: absolute;
+    background-image: url("../../img/bg_image_wheatField60q.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    overflow-x: hidden;
+    width: 100%;
+    left: 0;
+    top: 0;
+    h1 {
+        margin-top: 5%;
+        color: $headerColor;
+        text-align: center;
+        font-size: 5em;
+        letter-spacing: 2px;
+    }
+    h2 {
+        color: black;
+        text-align: center;
+    }
+    .contact-img {
+        margin-top: 2%;
+        margin-bottom: -3%;
+        margin-left: 40%;
+    }
+    .charts {
+        padding-left: 5%;
+        h2 {
+            color: $peapsBlue;
+            width: 40%;
+            font-size: 3em;
+        }
+        p {
+            margin-top: 5%;
+            line-height: 150%;
+            width: 40%;
+            font-size: 1.5em;
+            color: #afafaf;
+        }
+        canvas {
+            display: float;
+            margin-left: 50%;
+            margin-top: -20%;
+        }
+    }
+    .initiations {
+        margin-top: 20%;
+        margin-bottom: 10%;
+        width: 100%;
+    }
+    .ratios {
+        width: 100%;
+    }
+}
+
+nav {
     background-color: #181818;
     width: 20%;
     height: 100%;
@@ -100,24 +176,21 @@ nav{
     overflow-x: hidden;
     font-weight: 300;
     margin-left: -20%;
-
-    ul{
+    ul {
         cursor: pointer;
         margin-left: -10%;
-        li{
+        li {
             line-height: 200%;
             font-size: 1.5em;
         }
-        li:hover{
-            background-color: #00C8F8;
+        li:hover {
+            background-color: $peapsBlue;
         }
     }
-
-    ul li{
+    ul li {
         list-style: none;
     }
-
-    h2{
+    h2 {
         margin-left: 7%;
         font-size: 1.4em;
     }
@@ -126,50 +199,12 @@ nav{
 nav::-webkit-scrollbar {
     width: 7px;
 }
- 
+
 nav::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 nav::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  // outline: 1px solid #181818;
+    background-color: darkgrey;
+    // outline: 1px solid #181818;
 }
-
-// .step2 {
-//     div {
-//     	margin: 5% 30%;
-//     	// border: 2px red solid;
-//     	width: 30%;
-//     	height: 150px;
-//     	text-align: center;
-//         select {
-//             height: 40px;
-//             background-color: #fafafa;
-//             box-shadow: 7px 7px 7px 1px #cccccc;
-//             border: 0px;
-//             border-radius: 3px;
-//             font-size: 1em;
-//             padding: 10px 10px;
-//             box-sizing: border-box;
-//         }
-//         button {
-//         	box-shadow: 7px 7px 7px 1px #cccccc;
-//         	margin-top: 5%;
-//         	line-height: 150%;
-//         }
-//     }
-// }
-
-// .step3 {
-// 	h2 {
-// 		color: $headerColor;
-//     	margin: 5% auto;
-//     	width: 250px;
-// 	}
-// 	p {
-// 		width: 50%;
-// 		line-height: 150%;
-// 		margin: 0 auto;
-// 	}
-// }

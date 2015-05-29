@@ -5,8 +5,10 @@ var listOfMessages = [];
 var statsJSON = null;
 var userName = null;
 var userId = null;
+var toName = null;
+var toId = null;
 
-var numberOfMessages = 1000;
+var numberOfMessages = 1500;
 var MsgAppLimited = "Due to heavy usage, our APP has been limited by Facebook. We will keep trying, please leave this window open.";
 
 
@@ -53,7 +55,7 @@ function fb_login() {
 
 
 /* UI Functions */
-function changeScreen(screen) {
+function changeScreen(screen, intoYou) {
   if (screen == 1) {
     $(".step1 img").removeClass('shift-left', 500);
     $(".step1 h1").removeClass('shift-left', 500);
@@ -61,11 +63,30 @@ function changeScreen(screen) {
     $("nav").removeClass('shift-nav', 500);
   }
   if (screen == 2) {
+    $(".result").hide();
+    $(".step1").show();
     $(".step1 img").addClass('shift-left', 500);
     $(".step1 h1").addClass('shift-left', 500);
     $(".step1 a").addClass('invisible', 500);
     $("nav").addClass('shift-nav', 500);
-    $(".progress").switchClass("visible", "invisible", 100);
+    $(".my-progress").switchClass("visible", "invisible", 100);
+    $(".step1 h1").addClass('visible', 0);
+    $("nav").addClass('visible', 0);
+  }
+  if (screen == 3) {
+    $(".my-progress").switchClass("visible", "invisible", 100);
+    $(".step1").hide();
+    $(".result").show();
+    $(".contact-img").attr("src", "http://graph.facebook.com/" + toId + "/picture?type=large");
+    $(".contact-img").attr("height", "200");
+    $("#toName").html(toName);
+    if (intoYou == true) {
+      $("#toYou").html(" is definitely into you!");
+      $(".contact-img").switchClass("red-glow", "green-glow");
+    } else {
+      $("#toYou").html(" is not into you!");
+      $(".contact-img").switchClass("green-glow", "red-glow");
+    }
   }
 }
 
@@ -80,34 +101,14 @@ function closeWarning() {
 }
 
 $(document).ready(function() {
-  // document.getElementById("generateStats").addEventListener("click", handlerGenerateButton);
   // $(".step1").hide();
-  // $(".step2").hide();
-  // $(".step3").hide();
-  // $(".step4").hide();
+  $(".result").hide();
+  // $(".result").show();
+  // createCharts(statsObject, "Nikolas Moya", "Thiago Jaruga Della Bianca");
 });
 
 
 /* Give me some REST */
-function sendDataTest() {
-  userName = "Nikolas Moya";
-  sendData(sampleJSON2.data);
-}
-
-function sendData(messages_data) {
-  var json_object = {
-    "data": messages_data,
-    "name": userName
-  }
-  $.post("/whosintoyou/receivedata", json_object, function(data) {
-    if (!data.error) {
-      console.log(data);
-      $(".step4").html(JSON.stringify(data));
-    } else
-      showWarning("Operation aborted, please reload the page. " + data.error);
-  });
-}
-
 function getAllConversations(request_url, userName, callback) {
   FB.api(request_url, function(response) {
     if (response.error) {
@@ -122,14 +123,14 @@ function getAllConversations(request_url, userName, callback) {
         if (response.data[i].to.data.length == 2) {
           if (response.data[i].to.data[1].name != userName) {
             // console.log(response.data[i]);
-            refreshHTML(response.data.length);
             listOfConversations.push(new Conversation(response.data[i].id, userName, response.data[i].to.data[1].name, response.data[i].to.data[1].id))
           }
         }
       }
-      if (response.paging)
+      if (response.paging) {
+        refreshHTML(response.data.length);
         getAllConversations(response.paging.next, userName, callback)
-      else
+      } else
         callback();
     }
   });
@@ -187,42 +188,50 @@ function getAllMessagesPaging(request_url, callback, progress) {
   });
 }
 
+function computeStatistics() {
+  console.log("Number of messages: ");
+  console.log(listOfMessages.length);
+  var json_object = {
+    "data": listOfMessages,
+    "name": userName
+  }
+  $.post("/whosintoyou/receivedata", json_object, function(data) {
+    if (data.error) {
+      showWarning("Operation aborted, please reload the page and restart. " + data.error);
+    } else {
+      JSONData = JSON.parse(data.stats);
+      if (JSONData.initiations[toName] >= JSONData.initiations[toName])
+        changeScreen(3, true);
+      else
+        changeScreen(3, false);
+      createCharts(JSONData, userName, toName);
+      // console.log(data);
+      // console.log(JSON.stringify(data));
+      statsJSON = data;
+    }
+  });
+}
+
 function refreshHTML(increment) {
-  $(".progress").switchClass("invisible", "visible", 100);
+  $(".my-progress").switchClass("invisible", "visible", 100);
   var progress = document.getElementById("progress");
   var counter = parseInt(progress.innerHTML);
   counter += increment;
   progress.innerHTML = counter;
 }
 
-function handlerGenerateButton() {
-  $(".step2").hide(hideTimeout);
-  $(".step3").show();
-  var select = document.getElementById("conversations");
-  var conversationId = select[select.selectedIndex].value;
-  var to = select[select.selectedIndex].innerHTML;
-
-  var counter = document.getElementById("progress");
-  var table = document.getElementById("messagesTable");
-  table.innerHTML = "";
-  counter.innerHTML = 0;
-
-  // 185506144849518
+function handlerContactStatistics(element) {
+  document.getElementById("progress").innerHTML = 0;
+  var conversationId = element.conversationId;
+  toName = element.innerHTML;
+  toId = element.toId;
+  // console.log(element.toId);
+  // console.log(element.innerHTML);
   console.log("Starting");
   getAllMessages("/" + conversationId, computeStatistics);
 }
 
-function computeStatistics() {
-  $(".step3").hide(hideTimeout);
-  $(".step4").show();
-  console.log("callback called. computeStatistics");
-  console.log("Number of messages: ");
-  console.log(listOfMessages.length);
-  sendData(listOfMessages);
-  // generateTable();
-}
-
-function generateSelectOptions() {
+function populateConversations() {
   changeScreen(2);
   var ul = document.getElementById("conversations");
   for (var i = 0; i < listOfConversations.length; i++) {
@@ -233,38 +242,34 @@ function generateSelectOptions() {
     li.onclick = (function() {
       var currentLi = li;
       return function() {
-        test(currentLi);
+        handlerContactStatistics(currentLi);
       }
     })();
     ul.appendChild(li);
   }
 }
 
-function test(element) {
-  console.log(element.conversationId);
-  console.log(element.toId);
-  console.log(element.innerHTML);
-}
-
-function generateTable() {
-    var table = document.getElementById("messagesTable");
-    for (var i = 0; i < listOfMessages.length; i++) {
-      var row = table.insertRow(-1);
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      var cell3 = row.insertCell(2);
-      cell1.innerHTML = listOfMessages[i].from;
-      cell2.innerHTML = listOfMessages[i].message;
-      cell3.innerHTML = listOfMessages[i].datetime;
-    }
-  }
-  //  http://graph.facebook.com/nikolas.moya/picture?type=large
 function main() {
+  //  http://graph.facebook.com/nikolas.moya/picture?type=large
   FB.api('/me', function(response) {
     userId = response.id;
     userName = response.name;
-    console.log(userId, userName);
-    // alert("uncomment me");
-    getAllConversations("/" + userId + '/inbox', userName, generateSelectOptions);
+    // console.log(userId, userName);
+    getAllConversations("/" + userId + '/inbox', userName, populateConversations);
   });
 }
+
+
+
+// function generateTable() {
+//     var table = document.getElementById("messagesTable");
+//     for (var i = 0; i < listOfMessages.length; i++) {
+//       var row = table.insertRow(-1);
+//       var cell1 = row.insertCell(0);
+//       var cell2 = row.insertCell(1);
+//       var cell3 = row.insertCell(2);
+//       cell1.innerHTML = listOfMessages[i].from;
+//       cell2.innerHTML = listOfMessages[i].message;
+//       cell3.innerHTML = listOfMessages[i].datetime;
+//     }
+//   }
