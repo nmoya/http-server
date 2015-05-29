@@ -19,10 +19,11 @@ var sampleJSON2 = {
 	}]
 };
 
-function Conversation(id, from, to) {
-	this.id = id;
+function Conversation(conversationId, from, to, toId) {
+	this.id = conversationId;
 	this.from = from;
 	this.to = to;
+	this.toId = toId;
 }
 
 // class methods

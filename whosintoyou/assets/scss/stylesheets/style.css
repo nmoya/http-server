@@ -6,12 +6,14 @@ body {
   font-family: "Open Sans", "Verdana", "Helvetica", "Arial", sans-serif;
   font-weight: 400;
   line-height: 150%;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
-/* line 21, ../sass/style.scss */
+/* line 23, ../sass/style.scss */
 .step1 {
   position: absolute;
-  background-image: url("../../img/bg_image_wheatField_overlayed.jpg");
+  background-image: url("../../img/bg_image_wheatField60q.jpg");
   background-repeat: no-repeat;
   background-size: 100%;
   width: 100%;
@@ -19,43 +21,83 @@ body {
   left: 0;
   top: 0;
 }
-/* line 31, ../sass/style.scss */
+/* line 33, ../sass/style.scss */
 .step1 img {
-  width: 60px;
-  margin: 1% 1%;
+  width: 90px;
+  padding: 1% 1%;
 }
-/* line 36, ../sass/style.scss */
+/* line 39, ../sass/style.scss */
 .step1 h1 {
   margin-top: 20%;
-  margin-bottom: 3%;
+  margin-bottom: 4%;
   color: white;
   text-align: center;
   font-size: 4em;
   letter-spacing: 2px;
 }
-/* line 44, ../sass/style.scss */
+/* line 47, ../sass/style.scss */
 .step1 .my-fb-class {
   width: 20%;
   margin: 0 auto;
   font-size: 1.2em;
   padding-top: 10px;
   height: 50px;
+  text-align: center;
 }
-/* line 50, ../sass/style.scss */
+/* line 54, ../sass/style.scss */
 .step1 .my-fb-class i {
+  opacity: 1;
   padding-top: 7px;
 }
 
-/* line 56, ../sass/style.scss */
-.step2 img, .step2 h1 {
+/* line 60, ../sass/style.scss */
+.shift-left {
   margin-left: 20%;
 }
-/* line 59, ../sass/style.scss */
-.step2 a {
-  visibility: hidden;
+
+/* line 63, ../sass/style.scss */
+.shift-nav {
+  margin-left: 0%;
 }
 
-/* line 64, ../sass/style.scss */
+/* line 66, ../sass/style.scss */
+.invisible {
+  opacity: 0;
+}
+
+/* line 69, ../sass/style.scss */
+.visible {
+  opacity: 1;
+}
+
+/* line 72, ../sass/style.scss */
+.my-alert {
+  z-index: 1;
+  position: absolute;
+  width: 50%;
+  margin: 5% 30%;
+}
+
+/* line 78, ../sass/style.scss */
+.my-progress {
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  background-color: transparent;
+  text-align: center;
+  margin-top: 40%;
+  font-size: 2em;
+  color: white;
+}
+
+/* line 88, ../sass/style.scss */
+.my-fb-like {
+  width: 20%;
+  z-index: 2;
+  margin: 2% 72%;
+}
+
+/* line 93, ../sass/style.scss */
 nav {
   background-color: #181818;
   width: 20%;
@@ -65,55 +107,43 @@ nav {
   overflow-y: auto;
   overflow-x: hidden;
   font-weight: 300;
+  margin-left: -20%;
 }
-/* line 74, ../sass/style.scss */
+/* line 104, ../sass/style.scss */
 nav ul {
   cursor: pointer;
   margin-left: -10%;
 }
-/* line 77, ../sass/style.scss */
+/* line 107, ../sass/style.scss */
 nav ul li {
   line-height: 200%;
   font-size: 1.5em;
 }
-/* line 81, ../sass/style.scss */
+/* line 111, ../sass/style.scss */
 nav ul li:hover {
-  background-color: #41b6e6;
+  background-color: #00C8F8;
 }
-/* line 86, ../sass/style.scss */
+/* line 116, ../sass/style.scss */
 nav ul li {
   list-style: none;
 }
-/* line 90, ../sass/style.scss */
+/* line 120, ../sass/style.scss */
 nav h2 {
   margin-left: 7%;
   font-size: 1.4em;
 }
 
-/* line 96, ../sass/style.scss */
+/* line 126, ../sass/style.scss */
 nav::-webkit-scrollbar {
   width: 7px;
 }
 
-/* line 100, ../sass/style.scss */
+/* line 130, ../sass/style.scss */
 nav::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-/* line 104, ../sass/style.scss */
+/* line 134, ../sass/style.scss */
 nav::-webkit-scrollbar-thumb {
   background-color: darkgrey;
-}
-
-/* line 135, ../sass/style.scss */
-.step3 h2 {
-  color: white;
-  margin: 5% auto;
-  width: 250px;
-}
-/* line 140, ../sass/style.scss */
-.step3 p {
-  width: 50%;
-  line-height: 150%;
-  margin: 0 auto;
 }

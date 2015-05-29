@@ -7,60 +7,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.9.0/bootstrap-social.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./assets/scss/stylesheets/style.css">
+    
     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="./assets/js/typed.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> <!-- Required for animations -->
     <script src="./assets/js/conversation.js"></script>
     <script src="./assets/js/init.js"></script>
   </head>
   <body>
-    <!-- <button onclick="sendDataTest();">Next step</button> -->
-    <!-- <p id='status'></p> -->
-    <!-- <div class="fb-like" data-share="true" data-width="450" data-show-faces="true"></div> -->
-    <div class='step1 step2'>
+    
+  <!-- Auxiliary elements -->
+    <div class="alert alert-warning my-alert invisible" id='status'>
+      <span>Warning! There was a problem with your network connection.</span>
+      <a class="close" data-dismiss="alert" onclick="closeWarning();"> &times;</a>
+    </div>
+    <div class="fb-like my-fb-like" data-share="true" data-width="450" data-show-faces="true"></div>
+    
+    <div class="my-progress invisible">
+      <p>0</p>
+    </div>
 
-    <nav>
-      <h2>Select a relationship:</h2>
-      <ul>
-        <li>Aaaa</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-                <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-        <li>Eeeee</li>
-
-      </ul>
-    </nav>
-
+    <!-- Core elements -->
+    <div class='step1'>
+      <nav>
+        <h2>Select a relationship:</h2>
+        <ul id='conversations'>
+        </ul>
+      </nav>
       <img src="./assets/img/peap_icon.png">
       <h1>Who's into you?</h1>
       <!-- <fb:login-button></fb:login-button> -->
@@ -69,7 +41,7 @@
       </a>
       <!-- <div class="fb-login-button" scope="public_profile,email,read_mailbox" onlogin="checkLoginState();" data-max-rows="12" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false"></div> -->
     </div>
-<!--     <div class='step2'>
+    <!--     <div class='step2'>
       <h1>Please choose a contact to analyze your relationship: </h1>
       <div>
         <h2>Please wait <span id="typed"></span></h2>
