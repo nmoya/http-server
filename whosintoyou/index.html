@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>FB Chat Prototype</title>
+    <title>Who's into you?</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.9.0/bootstrap-social.css">
@@ -10,7 +10,6 @@
     
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> <!-- Required for animations -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script> -->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="./assets/js/conversation.js"></script>
     <script src="./assets/js/charts.js"></script>
@@ -40,6 +39,9 @@
       <a class="btn btn-block btn-social btn-facebook my-fb-class" onclick="fb_login();">
         <i class="fa fa-facebook"></i> <b>Login</b> with <b>Facebook</b>
       </a>
+      <a class="btn btn-block btn-social btn-facebook my-fb-logout-class invisible" onclick="fb_logout();">
+        <i class="fa fa-facebook"></i> <b>Logout</b>
+      </a>
       <!-- <div class="fb-login-button" scope="public_profile,email,read_mailbox" onlogin="checkLoginState();" data-max-rows="12" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false"></div> -->
     </div>
     <!-- Results div -->
@@ -51,19 +53,69 @@
       <h2> &#8595; Scroll to see why &#8595;</h2>
       <div class='charts'>
         <div class='initiations'>
-          <h2> Initiates conversations often </h2>
-          <p>An initiation is counted when someone sends the first message after a long period of silence (8 hours).</p>
-          <!-- <canvas id='bar-initiations' width='400' height='400'></canvas> -->
-          <div id="bar-initiations" width='400' height='400'></div>
-        </div>
-        <div class='ratios'>
-          <h2> Take a look into your chat ratios </h2>
-          <p>The ratio represents the relative magnitude of each dimension between you and your contact. For example, if you sent 80 messages, and received 100, the ratio will be 0.8. The line at 1.0 represents a balance.</p>
-          <!-- <canvas id='bar-ratios' width='400' height='400'></canvas> -->
-          <div id="bar-ratios" width='400' height='400'></div>
+          <table>
+            <tr>
+              <td>
+                <h2> Initiates conversations often </h2>
+                <p>An initiation is counted when someone sends the first message after a long period of silence (8 hours).</p>
+              </td>
+              <td>
+                <div id="bar-initiations" width='600' height='400' class='chart'></div>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>
+                <h2> Who's more interested into the other? </h2>
+                <p>How many questions each of you asked to each other?</p>
+              </td>
+              <td>
+                <div id="bar-questions" width='600' height='400' class='chart'></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2> Average response time </h2>
+                <p>This chart shows how long (in seconds) each of you take to reply the other. Pretty cool, right?</p>
+              </td>
+              <td>
+                <div id="bar-avg-response-time" width='600' height='400' class='chart'></div>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>
+                <h2>Weekdays, Weekends or both?</h2>
+                <p>How frequent you two talk for each day of the week?</p>
+              </td>
+              <td>
+                <div id="bar-weekdays" width='600' height='400' class='chart'></div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <h2>And what time?</h2>
+                <p>Morning, afternoon, evening, latenight or all of them?</p>
+              </td>
+              <td>
+                <div id="bar-shifts" width='600' height='400' class='chart'></div>
+              </td>
+            </tr>
+            
+            <tr>
+              <td>
+                <h2> Take a look into your chat ratios </h2>
+                <p>The ratio represents the relative magnitude of each dimension between you and your contact. For example, if you sent 80 messages, and received 100, the ratio will be 0.8. The line at 1.0 represents a balance.</p>
+              </td>
+              <td>
+                <div id="bar-ratios" width='600' height='400' class='chart'></div>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
-      
     </div>
-  </body>
+  </div>
+</body>
 </html>

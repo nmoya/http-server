@@ -9,18 +9,19 @@ var toName = null;
 var toId = null;
 
 var numberOfMessages = 1500;
+var minNumberOfMessages = 2;
 var MsgAppLimited = "Due to heavy usage, our APP has been limited by Facebook. We will keep trying, please leave this window open.";
 
 
 /* Facebook Login */
-window.fbAsyncInit = function() {
+window.fbAsyncInit = function () {
   FB.init({
     appId: '1604163509840523',
     cookie: true, // enable cookies to allow the server to access the session
     xfbml: true, // parse social plugins on this page
     version: 'v2.3' // use version 2.2
   });
-  FB.getLoginStatus(function(response) {
+  FB.getLoginStatus(function (response) {
     statusChangeCallback(response);
   });
 };
@@ -32,7 +33,7 @@ function statusChangeCallback(response) {
 }
 
 function fb_login() {
-  FB.login(function(response) {
+  FB.login(function (response) {
     if (response.status === 'connected') {
       main(); // Main is in init.js
     } else if (response.status === 'not_authorized') {
@@ -44,7 +45,14 @@ function fb_login() {
     scope: "public_profile,email,read_mailbox"
   });
 };
-(function(d, s, id) {
+
+function fb_logout() {
+  FB.logout(function (response) {
+    changeScreen(1);
+  });
+}
+
+(function (d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s);
@@ -55,11 +63,12 @@ function fb_login() {
 
 
 /* UI Functions */
-function changeScreen(screen, intoYou, callback) {
+function changeScreen(screen, intoYou) {
   if (screen == 1) {
     $(".step1 img").removeClass('shift-left', 500);
     $(".step1 h1").removeClass('shift-left', 500);
     $(".step1 a").removeClass('invisible', 500);
+    $(".my-fb-logout-class").switchClass("visible", "invisible", 100);
     $("nav").removeClass('shift-nav', 500);
   }
   if (screen == 2) {
@@ -70,6 +79,7 @@ function changeScreen(screen, intoYou, callback) {
     $(".step1 a").addClass('invisible', 500);
     $("nav").addClass('shift-nav', 500);
     $(".my-progress").switchClass("visible", "invisible", 100);
+    $(".my-fb-logout-class").switchClass("invisible", "visible", 100);
     $(".step1 h1").addClass('visible', 0);
     $("nav").addClass('visible', 0);
   }
@@ -87,7 +97,6 @@ function changeScreen(screen, intoYou, callback) {
       $("#toYou").html(" is not into you!");
       $(".contact-img").switchClass("green-glow", "red-glow");
     }
-    callback();
   }
 }
 
@@ -101,21 +110,24 @@ function closeWarning() {
   $("#status").switchClass("visible", "invisible", 500);
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
   // $(".step1").hide();
   $(".result").hide();
-  // $(".result").show();
-  // createCharts(statsObject, "Nikolas Moya", "Thiago Jaruga Della Bianca");
+
+  // toId = "ricardo.ost";
+  // toName = "Ricardo Ost";
+  // changeScreen(3, false);
+  // createCharts(statsObject, "Nikolas Moya", "Ricardo Ost");
 });
 
 
 /* Give me some REST */
 function getAllConversations(request_url, userName, callback) {
-  FB.api(request_url, function(response) {
+  FB.api(request_url, function (response) {
     if (response.error) {
       showWarning(MsgAppLimited);
       console.log(response.error.message);
-      setTimeout(function() {
+      setTimeout(function () {
         getAllConversations(request_url, userName, callback)
       }, 60000);
     } else {
@@ -138,17 +150,20 @@ function getAllConversations(request_url, userName, callback) {
 }
 
 function getAllMessages(request_url, callback) {
-  FB.api(request_url, function(response) {
+  FB.api(request_url, function (response) {
     if (response.error) {
       console.log(response.error.message);
       showWarning(MsgAppLimited);
-      setTimeout(function() {
+      setTimeout(function () {
         getAllMessages(request_url, callback)
       }, 60000);
     } else {
       closeWarning();
       if (!response.comments)
-        callback();
+        if (response.comments.data.length > minNumberOfMessages)
+          callback(true);
+        else
+          callback(false);
       for (var i = 0; i < response.comments.data.length; i++) {
         listOfMessages.push(new Message(response.comments.data[i].id,
           response.comments.data[i].from.name,
@@ -164,11 +179,11 @@ function getAllMessages(request_url, callback) {
 }
 
 function getAllMessagesPaging(request_url, callback, progress) {
-  FB.api(request_url, function(response) {
+  FB.api(request_url, function (response) {
     if (response.error) {
       console.log(response.error.message);
       showWarning(MsgAppLimited);
-      setTimeout(function() {
+      setTimeout(function () {
         getAllMessagesPaging(request_url, callback, progress)
       }, 60000);
     } else {
@@ -184,38 +199,45 @@ function getAllMessagesPaging(request_url, callback, progress) {
         refreshHTML(response.data.length);
         getAllMessagesPaging(response.paging.next, callback, progress);
       } else
-        callback();
+      if (progress > minNumberOfMessages)
+        callback(true);
+      else
+        callback(false);
     }
   });
 }
 
-function computeStatistics() {
-  console.log("Number of messages: ");
-  console.log(listOfMessages.length);
-  var json_object = {
-    "data": listOfMessages,
-    "name": userName
-  }
-  $.post("/whosintoyou/receivedata", json_object, function(data) {
-    if (data.error) {
-      showWarning("Operation aborted, please reload the page and restart. " + data.error);
-    } else {
-      JSONData = JSON.parse(data.stats);
-      if (JSONData.initiations[toName] >= JSONData.initiations[toName])
-        changeScreen(3, true, function() {
-          console.log("Screen appeared");
-          createCharts(JSONData, userName, toName);
-        });
-      else
-        changeScreen(3, false, function() {
-          console.log("Screen appeared");
-          createCharts(JSONData, userName, toName);
-        });
-      // console.log(data);
-      // console.log(JSON.stringify(data));
-      statsJSON = data;
+function computeStatistics(enough_messages) {
+  if (enough_messages) {
+    console.log("Number of messages: ");
+    console.log(listOfMessages.length);
+    var json_object = {
+      "data": listOfMessages,
+      "name": userName
     }
-  });
+    $.post("/whosintoyou/receivedata", json_object, function (data) {
+      if (data.error) {
+        showWarning("Operation aborted, please reload the page and restart. " + data.error);
+      } else {
+        JSONData = JSON.parse(data.stats);
+        intoYou = JSONData.outcome;
+        if (intoYou) {
+          changeScreen(3, true);
+          createCharts(JSONData, userName, toName);
+        } else {
+          changeScreen(3, false);
+          createCharts(JSONData, userName, toName);
+        }
+        // changeScreen(3, false, function () {
+        //   console.log("Screen appeared");
+        //   createCharts(JSONData, userName, toName);
+        // });
+        statsJSON = data;
+      }
+    });
+  } else {
+    showWarning("You do not have enough messages with this contact. Please chose another.");
+  }
 }
 
 function refreshHTML(increment) {
@@ -234,6 +256,7 @@ function handlerContactStatistics(element) {
   // console.log(element.toId);
   // console.log(element.innerHTML);
   console.log("Starting");
+  listOfMessages = []
   getAllMessages("/" + conversationId, computeStatistics);
 }
 
@@ -245,9 +268,9 @@ function populateConversations() {
     li.conversationId = listOfConversations[i].id;
     li.toId = listOfConversations[i].toId;
     li.innerHTML = listOfConversations[i].to;
-    li.onclick = (function() {
+    li.onclick = (function () {
       var currentLi = li;
-      return function() {
+      return function () {
         handlerContactStatistics(currentLi);
       }
     })();
@@ -257,7 +280,7 @@ function populateConversations() {
 
 function main() {
   //  http://graph.facebook.com/nikolas.moya/picture?type=large
-  FB.api('/me', function(response) {
+  FB.api('/me', function (response) {
     userId = response.id;
     userName = response.name;
     // console.log(userId, userName);

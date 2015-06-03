@@ -28,6 +28,19 @@ div[class^='step'], div[class*=' step'] {
     padding: 1% 1%;
 }
 
+.my-fb-logout-class {
+    width: 10%;
+    margin: 0 85%;
+    font-size: 1.2em;
+    padding-top: 3px;
+    height: 30px;
+    text-align: center;
+    i {
+        opacity: 1;
+        padding-top: 0px;
+    }
+}
+
 .step1 {
     position: absolute;
     background-image: url("../../img/bg_image_wheatField60q.jpg");
@@ -115,8 +128,9 @@ div[class^='step'], div[class*=' step'] {
     position: absolute;
     background-image: url("../../img/bg_image_wheatField60q.jpg");
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 100% 20%;
     overflow-x: hidden;
+    overflow-y: hidden;
     width: 100%;
     left: 0;
     top: 0;
@@ -135,35 +149,37 @@ div[class^='step'], div[class*=' step'] {
         margin-top: 2%;
         margin-bottom: -3%;
         margin-left: 40%;
+        border-radius: 100px;
     }
     .charts {
-        padding-left: 5%;
+        margin-left: 5%;
+        margin-top: 5%;
+        .initiations {
+            margin-bottom: 10%;
+            width: 100%;
+        }
         h2 {
             color: $peapsBlue;
-            width: 40%;
+            width: 70%;
             font-size: 3em;
         }
         p {
             margin-top: 5%;
+            margin-left: 5%;
             line-height: 150%;
-            width: 40%;
+            width: 70%;
             font-size: 1.5em;
             color: #afafaf;
         }
-        div {
-            display: float;
-            margin-left: 50%;
-            margin-top: -20%;
-        }
-    }
-    .initiations {
-        margin-top: 20%;
-        margin-bottom: 10%;
-        width: 100%;
     }
     .ratios {
         width: 100%;
     }
+}
+
+table {
+    width: 90%;
+    align: center;
 }
 
 nav {
