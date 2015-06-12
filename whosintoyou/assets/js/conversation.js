@@ -1,5 +1,6 @@
 // local = localStorage.getItem('localStats')
 // var statsObject = JSON.parse(JSON.parse(local).stats);
+
 function Conversation(conversationId, from, to, toId) {
 	this.id = conversationId;
 	this.from = from;

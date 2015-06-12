@@ -111,6 +111,9 @@ function plotRatios(JSONData) {
 		title: "Ratios",
 		width: 600,
 		height: 400,
+		vAxis: {
+			maxValue: 2
+		},
 		bar: {
 			groupWidth: "95%"
 		},
@@ -159,10 +162,10 @@ function plotShifts(JSONData) {
 		['Frequency', 'Shifts', {
 			role: 'style'
 		}],
-		['Latenight', JSONData.shifts.latenight, 'color: #00C8F8'],
-		['Morning', JSONData.shifts.morning, 'color: #00C8F8'],
-		['Afternoon', JSONData.shifts.afternoon, 'color: #00C8F8'],
-		['Evening', JSONData.shifts.evening, 'color: #00C8F8'],
+		['Latenight (00h - 06h)', JSONData.shifts.latenight, 'color: #00C8F8'],
+		['Morning   (06h - 11h)', JSONData.shifts.morning, 'color: #00C8F8'],
+		['Afternoon (11h - 17h)', JSONData.shifts.afternoon, 'color: #00C8F8'],
+		['Evening   (17h - 00h)', JSONData.shifts.evening, 'color: #00C8F8'],
 	]);
 	var view = new google.visualization.DataView(data);
 	var options = {
